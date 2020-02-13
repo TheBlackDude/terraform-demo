@@ -36,4 +36,25 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
+terraform {
+    # Terraform backend example
+    backend "s3" {
+        bucket         = "terraform-s3-resource-sample"
+        key            = "global/s3/terraform.tfstate"
+        region         = "eu-west-3"
+        dynamodb_table = "terraform-dynamodb-resource-sample"
+        encrypt        = true
+    }
+}
+
+output "s3_bucket_arn" {
+  value       = aws_s3_bucket.terraform_state.arn
+  description = "The ARN of the s3 bucket"
+}
+
+output "dynamodb_table_name" {
+  value       = aws_dynamodb_table.terraform_locks.name
+  description = "The name of the DynamoDB table"
+}
+
 
