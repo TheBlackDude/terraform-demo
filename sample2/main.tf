@@ -36,11 +36,16 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
+resource "aws_instance" "example" {
+  ami           = "ami-0c229bfed6d47178b"
+  instance_type = "t2.micro"
+}
+
 terraform {
     # Terraform backend example
     backend "s3" {
         bucket         = "terraform-s3-resource-sample"
-        key            = "global/s3/terraform.tfstate"
+        key            = "workspaces-example/terraform.tfstate"
         region         = "eu-west-3"
         dynamodb_table = "terraform-dynamodb-resource-sample"
         encrypt        = true
